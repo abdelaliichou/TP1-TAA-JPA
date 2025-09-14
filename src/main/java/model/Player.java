@@ -2,8 +2,22 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
-public class Player {
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = "getPlayers",
+                        query = "select e from Player e"
+                ),
+                @NamedQuery(
+                        name = "getPlayerByName",
+                        query = "select e from Player e where e.name = :name"
+                )
+        }
+)
+public class Player implements Serializable {
 
     private Long id;
     private String name;
@@ -32,6 +46,7 @@ public class Player {
         this.id = id;
     }
 
+    @Column(length = 100)
     public String getName() {
         return name;
     }
@@ -40,9 +55,7 @@ public class Player {
         this.name = name;
     }
 
-    // cascad means that if the department entity will be automatically persist
-    // in case a new object of it will be created by a persist class like Player
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     public Department getDepartment() {
         return department;
     }

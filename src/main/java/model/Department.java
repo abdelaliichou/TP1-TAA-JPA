@@ -1,14 +1,12 @@
 package model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-public class Department {
+public class Department implements Serializable {
 
     private Long id;
     private String name;
@@ -48,7 +46,7 @@ public class Department {
         this.codePostal = codePostal;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "department", cascade = CascadeType.PERSIST )
     public Collection<Player> getPlayers() {
         return this.players;
     }

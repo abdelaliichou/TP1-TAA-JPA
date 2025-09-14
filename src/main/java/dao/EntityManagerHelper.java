@@ -1,4 +1,4 @@
-package jpa;
+package dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -6,11 +6,12 @@ import jakarta.persistence.Persistence;
 
 public class EntityManagerHelper {
 
+    static final String PERSISTENCE_UNIT_NAME = "dev";
     private static final EntityManagerFactory emf; 
     private static final ThreadLocal<EntityManager> threadLocal;
 
     static {
-        emf = Persistence.createEntityManagerFactory("dev");      
+        emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         threadLocal = new ThreadLocal<EntityManager>();
     }
 
