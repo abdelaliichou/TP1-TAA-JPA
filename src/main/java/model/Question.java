@@ -18,7 +18,7 @@ public class Question implements Serializable {
     @ManyToOne
     private Quiz quiz;
 
-    // Une question a plusieurs réponses
+    // a question has multiple responses
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Response> reponses = new ArrayList<>();
 

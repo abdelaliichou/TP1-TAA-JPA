@@ -13,7 +13,7 @@ public class Response implements Serializable {
     private String body;
     private Boolean isCorrect;
 
-    // Une réponse appartient à une question
+    // many responses belong to a question
     @ManyToOne
     private Question question;
 

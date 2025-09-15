@@ -1,4 +1,4 @@
-package dao;
+package facade;
 
 import java.io.Serializable;
 import java.util.List;

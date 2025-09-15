@@ -3,6 +3,7 @@ package dao;
 import java.io.Serializable;
 import java.util.List;
 
+import facade.IGenericDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jpa.EntityManagerHelper;

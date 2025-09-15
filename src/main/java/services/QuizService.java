@@ -1,4 +1,4 @@
-package dao;
+package services;
 
 import model.Participation;
 import model.Question;
@@ -6,13 +6,9 @@ import model.Quiz;
 
 import java.util.List;
 
-public class QuizDao extends AbstractJpaDao<Long, Quiz> implements facade.QuizDao {
+public class QuizService implements facade.QuizDao {
 
-    // TODO same db communication logic as the playerDao class
-
-    public QuizDao() {
-        super(Quiz.class);
-    }
+    // TODO same communication logic with the dao classes as we did the playerService class
 
     @Override
     public List<Quiz> findByAuteur(Long auteurId) {

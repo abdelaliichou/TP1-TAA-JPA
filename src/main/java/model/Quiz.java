@@ -14,15 +14,15 @@ public class Quiz implements Serializable {
     private String title;
     private String description;
 
-    // Plusieurs quiz appartiennent à un utilisateur (auteur)
+    // many quizzes can be created by one player who is a teacher
     @ManyToOne
-    private Player player;
+    private Player author;
 
-    // Un quiz contient plusieurs questions
+    // a quiz contains multiple players
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
-    // Un quiz contient plusieurs participations
+    // a quiz contains multiple participations
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<Participation> participations = new ArrayList<>();
 
@@ -59,12 +59,12 @@ public class Quiz implements Serializable {
         this.description = description;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Player getAuthor() {
+        return author;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setAuthor(Player author) {
+        this.author = author;
     }
 
     public List<Question> getQuestions() {

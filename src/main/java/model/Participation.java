@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 
+// class to link a player with a quiz that he played
+
 @Entity
 public class Participation implements Serializable {
 
@@ -13,11 +15,11 @@ public class Participation implements Serializable {
     private String nickname;
     private int score;
 
-    // one player can participate in many participations
+    // one player can participate in multiple participation
     @ManyToOne
     private Player player;
 
-    // many participation est liée à un quiz
+    // multiple participation belongs to a quiz
     @ManyToOne
     private Quiz quiz;
 

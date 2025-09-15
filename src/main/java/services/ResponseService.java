@@ -1,16 +1,12 @@
-package dao;
+package services;
 
 import model.Response;
 
 import java.util.List;
 
-public class ResponseDao extends AbstractJpaDao<Long, Response> implements facade.ResponseDao {
+public class ResponseService implements  facade.ResponseDao {
 
-    // TODO same db communication logic as the playerDao class
-
-    public ResponseDao() {
-        super(Response.class);
-    }
+    // TODO same communication logic with the dao classes as we did the playerService class
 
     @Override
     public List<Response> findByQuestion(Long questionId) {

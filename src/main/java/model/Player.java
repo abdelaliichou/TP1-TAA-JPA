@@ -16,12 +16,13 @@ public class Player implements Serializable {
     @Column(length = 100)
     private String name;
     private String role;
+    private String email;
 
-    // Un utilisateur peut créer plusieurs quiz
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    // a player who is a teacher can create multiple quizzes
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
 
-    // Un utilisateur peut participer à plusieurs quiz
+    // a player can have many participations
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
     private List<Participation> participations = new ArrayList<>();
 
@@ -29,10 +30,12 @@ public class Player implements Serializable {
 
     public Player(
             String name,
-            String role
+            String role,
+            String email
     ) {
         this.role = role;
         this.name =  name;
+        this.email = email;
     }
 
     public Long getId() {
@@ -49,6 +52,14 @@ public class Player implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getRole() {

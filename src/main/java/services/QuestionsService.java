@@ -1,17 +1,13 @@
-package dao;
+package services;
 
 import model.Question;
 import model.Response;
 
 import java.util.List;
 
-public class QuestionDao extends AbstractJpaDao<Long, Question> implements facade.QuestionDao {
+public class QuestionsService implements facade.QuestionDao {
 
-    // TODO same db communication logic as the playerDao class
-
-    public QuestionDao() {
-        super(Question.class);
-    }
+    // TODO same communication logic with the dao classes as we did the playerService class
 
     @Override
     public List<Question> findByQuiz(Long quizId) {

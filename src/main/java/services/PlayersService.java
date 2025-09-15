@@ -1,93 +1,102 @@
 package services;
 
+import dao.PlayerDao;
+import facade.IGenericDao;
 import jakarta.persistence.EntityManager;
+import model.Participation;
 import model.Player;
-import model.Utils;
+import model.Quiz;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PlayersService {
+public class PlayersService implements facade.PlayerDao {
 
-    // getSingleResult() -> we're sur that the result is 1 element
-    // getResultList() -> we're sur that the result is > 1 element
-    // setFirstResult(int departPosition)
-    // setMaxResults(int resultsNumber)
-    // setFlushMode(FlushModeType mode)
+    // TODO create & add exceptions to every unwanted return
 
-    // return a list of 2 dimension objects containing name and role
-    public static List<Object[]> getPlayersNameAndRole(EntityManager manager) {
-        List<Object[]> players = (List<Object[]>)
-                manager.createQuery(
-                        Utils.playerNameAndRoleQuery
-                ).getResultList();
+    private final PlayerDao playerDao;
 
-        for (Object[] info : players) {
-            System.out.println("Player name => " + info[0]);
-            System.out.println("Player role => " + info[1]);
+    public PlayersService(PlayerDao playerDao) {
+        this.playerDao = playerDao;
+    }
+    
+    public Player findOne(Long id) {
+        if (id == null) {
+            return null;
         }
-        return players;
+
+        return playerDao.findOne(id);
     }
 
-    public static List<Player> getAllPlayers(EntityManager manager) {
-        List<Player> players = manager.createQuery(
-                Utils.allPlayersQuery,
-                Player.class
-        ).getResultList();
-        return players;
+    public List<Player> findAll() {
+        return playerDao.findAll();
     }
 
-    public static List<Player> getPlayersByDepartment(
-            EntityManager manager,
-            String dep
-    ) {
-        List<Player> players = manager.createQuery(
-                Utils.playersByDepartmentQuery,
-                Player.class
-        ).setParameter(
-                "departmentName",
-                dep
-        ).getResultList();
-        return players;
-    }
-
-    public static List<Player> getPlayersByName(
-            EntityManager manager,
-            String name
-    ) {
-        List<Player> players = manager.createQuery(
-                Utils.playerByNameQuery,
-                Player.class
-        ).setParameter(
-                "name",
-                name
-        ).getResultList();
-        return players;
-    }
-
-    public static ArrayList<Player> insertEmployees() {
-        return new ArrayList<Player>() {{
-            add(new Player(
-                            "raynaud",
-                            Utils.Roles.TEACHER.name()
-                    )
-            );
-            add(new Player(
-                            "ichou",
-                            Utils.Roles.STUDENT.name()
-                    )
-            );
-            add(new Player(
-                            "olivier",
-                            Utils.Roles.TEACHER.name()
-                    )
-            );
-        }};
-    }
-
-    public static void showPlayers(List<Player> players) {
-        for (Player p : players) {
-            System.out.println(p.toString());
+    public void save(Player entity) {
+        if (entity == null) {
+            return;
         }
+
+        playerDao.save(entity);
+    }
+
+    public Player update(Player entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        return playerDao.update(entity);
+    }
+
+    public void delete(Player entity) {
+        if (entity == null) {
+            return;
+        }
+
+        playerDao.delete(entity);
+    }
+
+    public void deleteById(Long entityId) {
+        if (entityId == null) {
+            return;
+        }
+
+        playerDao.deleteById(entityId);
+    }
+
+    @Override
+    public Player findByEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return null;
+        }
+
+        return playerDao.findByEmail(email);
+    }
+
+    @Override
+    public List<Quiz> findQuizByPlayer(Long playerId) {
+        if (playerId == null) {
+            return List.of();
+        }
+
+        return playerDao.findQuizByPlayer(playerId);
+    }
+
+    @Override
+    public List<Participation> findParticipationsByPlayer(Long playerId) {
+        if (playerId == null) {
+            return List.of();
+        }
+
+        return playerDao.findParticipationsByPlayer(playerId);
+    }
+
+    @Override
+    public boolean authenticate(String email) {
+        if (email == null || email.isEmpty()) {
+            System.out.println("Login failed for email: " + email);
+            return false;
+        }
+
+        return playerDao.authenticate(email);
     }
 }

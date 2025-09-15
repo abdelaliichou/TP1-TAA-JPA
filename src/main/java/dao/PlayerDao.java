@@ -1,16 +1,62 @@
 package dao;
 
+import model.Participation;
 import model.Player;
-import model.Utils;
-import org.hsqldb.lib.List;
+import model.Quiz;
+import model.JPQLQueries;
 
-public class PlayerDao extends AbstractJpaDao<Long, Player> {
+import java.util.List;
+
+public class PlayerDao extends AbstractJpaDao<Long, Player> implements facade.PlayerDao {
+
+    // here we add the custom queries that we want en plus
+
     public PlayerDao() {
         super(Player.class);
     }
 
-    // here we add the custom queries that we want en plus, for exemple
-    public List<Player> getMembershipPlayers(){
-        return (List<Player>) this.entityManager.createQuery(Utils.allPlayersQuery).getResultList();
+    @Override
+    public Player findByEmail(String email) {
+        return entityManager.createQuery(
+                JPQLQueries.playerFindByEmail,
+                Player.class
+        ).setParameter(
+                "email",
+                email
+        ).getSingleResult();
     }
+
+    @Override
+    public List<Quiz> findQuizByPlayer(Long playerId) {
+        return entityManager.createQuery(
+                JPQLQueries.playerFindQuizByPlayer,
+                Quiz.class
+        ).setParameter(
+                "playerId",
+                playerId
+        ).getResultList();
+    }
+
+    @Override
+    public List<Participation> findParticipationsByPlayer(Long playerId) {
+        return entityManager.createQuery(
+                JPQLQueries.playerFindParticipationsByPlayer,
+                Participation.class
+        ).setParameter(
+                "playerId",
+                playerId
+        ).getResultList();
+    }
+
+    @Override
+    public boolean authenticate(String email) {
+        return entityManager.createQuery(
+                JPQLQueries.playerAuthenticate,
+                Long.class
+        ).setParameter(
+                "email",
+                email
+        ).getSingleResult() > 0;
+    }
+
 }
