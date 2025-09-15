@@ -1,14 +1,9 @@
 package jpa;
 
 
-import dao.EntityManagerHelper;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import model.Department;
 import model.Player;
-import model.PlayerDao;
+import dao.PlayerDao;
 import model.Utils;
-import services.PlayersService;
 
 public class JpaDaoTest {
 
@@ -18,11 +13,7 @@ public class JpaDaoTest {
 
             Player ichou = new Player(
                     "abdelali",
-                    Utils.Roles.STUDENT.name(),
-                    new Department(
-                            "Rennes",
-                            35000
-                    )
+                    Utils.Roles.STUDENT.name()
             );
 
             PlayerDao playerDao = new PlayerDao();

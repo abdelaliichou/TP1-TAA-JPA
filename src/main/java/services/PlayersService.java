@@ -1,7 +1,6 @@
 package services;
 
 import jakarta.persistence.EntityManager;
-import model.Department;
 import model.Player;
 import model.Utils;
 
@@ -67,24 +66,20 @@ public class PlayersService {
     }
 
     public static ArrayList<Player> insertEmployees() {
-        Department dep = new Department("Rennes", 35000);
         return new ArrayList<Player>() {{
             add(new Player(
                             "raynaud",
-                            Utils.Roles.TEACHER.name(),
-                            dep
+                            Utils.Roles.TEACHER.name()
                     )
             );
             add(new Player(
                             "ichou",
-                            Utils.Roles.STUDENT.name(),
-                            dep
+                            Utils.Roles.STUDENT.name()
                     )
             );
             add(new Player(
                             "olivier",
-                            Utils.Roles.TEACHER.name(),
-                            dep
+                            Utils.Roles.TEACHER.name()
                     )
             );
         }};

@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jpa.EntityManagerHelper;
 
 public class AbstractJpaDao<K, T extends Serializable> implements IGenericDao<K, T> {
 

@@ -1,6 +1,7 @@
-package model;
+package dao;
 
-import dao.AbstractJpaDao;
+import model.Player;
+import model.Utils;
 import org.hsqldb.lib.List;
 
 public class PlayerDao extends AbstractJpaDao<Long, Player> {

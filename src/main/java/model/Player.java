@@ -3,41 +3,38 @@ package model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@NamedQueries(
-        {
-                @NamedQuery(
-                        name = "getPlayers",
-                        query = "select e from Player e"
-                ),
-                @NamedQuery(
-                        name = "getPlayerByName",
-                        query = "select e from Player e where e.name = :name"
-                )
-        }
-)
 public class Player implements Serializable {
 
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @Column(length = 100)
     private String name;
     private String role;
-    private Department department;
+
+    // Un utilisateur peut créer plusieurs quiz
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    private List<Quiz> quizzes = new ArrayList<>();
+
+    // Un utilisateur peut participer à plusieurs quiz
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    private List<Participation> participations = new ArrayList<>();
 
     public Player() {}
 
     public Player(
             String name,
-            String role,
-            Department department
+            String role
     ) {
         this.role = role;
         this.name =  name;
-        this.department = department;
     }
 
-    @Id
-    @GeneratedValue
     public Long getId() {
         return id;
     }
@@ -46,22 +43,12 @@ public class Player implements Serializable {
         this.id = id;
     }
 
-    @Column(length = 100)
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @ManyToOne
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
     }
 
     public String getRole() {
@@ -72,10 +59,25 @@ public class Player implements Serializable {
         this.role = role;
     }
 
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
+
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(List<Participation> participations) {
+        this.participations = participations;
+    }
+
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", name=" + name + ", department="
-                + department.getName() + "]";
+        return "Employee [id=" + id + ", name=" + name + "]";
     }
 
 }

@@ -1,7 +1,6 @@
 package jpa;
 
 
-import dao.EntityManagerHelper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import model.Player;
@@ -23,9 +22,6 @@ public class JpaTest {
         tx.begin();
         try {
 
-            for (Player p : PlayersService.insertEmployees()){
-                manager.persist(p);
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
