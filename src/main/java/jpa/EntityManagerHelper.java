@@ -6,6 +6,8 @@ import jakarta.persistence.Persistence;
 
 public class EntityManagerHelper {
 
+    // TODO run mysql docker command from google doc file before changing here
+
     static final String PERSISTENCE_UNIT_NAME = "dev";
     private static final EntityManagerFactory emf; 
     private static final ThreadLocal<EntityManager> threadLocal;

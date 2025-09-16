@@ -1,5 +1,6 @@
 package dao;
 
+import jakarta.persistence.NoResultException;
 import model.Participation;
 import model.Player;
 import model.Quiz;
@@ -17,13 +18,18 @@ public class PlayerDao extends AbstractJpaDao<Long, Player> implements facade.Pl
 
     @Override
     public Player findByEmail(String email) {
-        return entityManager.createQuery(
-                JPQLQueries.playerFindByEmail,
-                Player.class
-        ).setParameter(
-                "email",
-                email
-        ).getSingleResult();
+        try {
+            return entityManager.createQuery(
+                    JPQLQueries.playerFindByEmail,
+                    Player.class
+            ).setParameter(
+                    "email",
+                    email
+            ).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     @Override

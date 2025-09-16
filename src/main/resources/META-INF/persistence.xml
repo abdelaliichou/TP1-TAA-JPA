@@ -42,7 +42,7 @@
 
 	<persistence-unit name="mysql">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
- 
+
 		<properties>
 			<property name="jakarta.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />
