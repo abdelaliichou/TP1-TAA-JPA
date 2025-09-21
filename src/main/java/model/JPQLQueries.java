@@ -10,6 +10,17 @@ public class JPQLQueries {
     public static String playerFindParticipationsByPlayer = "SELECT p FROM Participation p WHERE p.player.id = :playerId";
     public static String playerAuthenticate = "SELECT COUNT(p) FROM Player p WHERE p.email = :email";
 
+    // --- JPQL Queries for Quiz ---
+    public static String quizFindById = "SELECT q FROM Quiz q WHERE q.id = :id";
+
+    public static String quizFindAll = "SELECT q FROM Quiz q ORDER BY q.id DESC";
+
+    public static String quizFindByAuthor = "SELECT q FROM Quiz q WHERE q.author.id = :authorId";
+
+    public static String quizFindWithQuestions = "SELECT q FROM Quiz q LEFT JOIN FETCH q.questions WHERE q.id = :quizId";
+
+    public static String quizDeleteById = "DELETE FROM Quiz q WHERE q.id = :id";
+
     // TODO same jpql queries for -> Participation | Quiz | Question | Response
 
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="playerForm.css">
+    </head>
+    <body>
+        <form method="POST" action="/QuestionServlet">
+            <div class="logo-container"><img src="istic.png" alt="Logo"></div>
+            <h2>Ajouter une Question</h2>
+
+            <label for="quiz">Quiz:</label>
+            <select name="quizId" id="quiz" required>
+                <!-- Options will be generated from the servlet -->
+                <!-- Example: -->
+                <!-- <option value="1">Quiz 1</option> -->
+                <!-- <option value="2">Quiz 2</option> -->
+            </select>
+
+            <label for="body">Question:</label>
+            <input type="text" id="body" name="body" required>
+
+            <label for="timeLimit">Temps limite (sec):</label>
+            <input type="text" id="timeLimit" name="timeLimit" required>
+
+            <input type="submit" value="Ajouter Question">
+        </form>
+    </body>
+</html>

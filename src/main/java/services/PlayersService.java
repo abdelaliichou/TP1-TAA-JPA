@@ -12,6 +12,7 @@ import java.util.List;
 public class PlayersService implements facade.PlayerDao {
 
     // TODO create & add exceptions to every unwanted return
+    // TODO create & add transactions logic with the entity manager
 
     private final PlayerDao playerDao;
 
