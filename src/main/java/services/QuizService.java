@@ -1,7 +1,7 @@
 package services;
 
-import dao.QuestionDao;
 import dao.QuizDao;
+import jakarta.persistence.EntityTransaction;
 import model.Participation;
 import model.Question;
 import model.Quiz;
@@ -16,6 +16,18 @@ public class QuizService implements facade.QuizDao {
 
     public QuizService(QuizDao quizDao) {
         this.quizDao = quizDao;
+    }
+
+    private void executeTransaction(Runnable action) {
+        EntityTransaction tx = quizDao.entityManager.getTransaction();
+        try {
+            tx.begin();
+            action.run();
+            tx.commit();
+        } catch (RuntimeException e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        }
     }
 
     public Quiz findOne(Long id) {
@@ -35,7 +47,7 @@ public class QuizService implements facade.QuizDao {
             return;
         }
 
-        quizDao.save(entity);
+        executeTransaction(() -> quizDao.save(entity));
     }
 
     public Quiz update(Quiz entity) {
@@ -43,7 +55,9 @@ public class QuizService implements facade.QuizDao {
             return null;
         }
 
-        return quizDao.update(entity);
+        final Quiz[] result = new Quiz[1];
+        executeTransaction(() -> result[0] = quizDao.update(entity));
+        return result[0];
     }
 
     public void delete(Quiz entity) {
@@ -51,7 +65,7 @@ public class QuizService implements facade.QuizDao {
             return;
         }
 
-        quizDao.delete(entity);
+        executeTransaction(() -> quizDao.delete(entity));
     }
 
     public void deleteById(Long entityId) {
@@ -59,7 +73,7 @@ public class QuizService implements facade.QuizDao {
             return;
         }
 
-        quizDao.deleteById(entityId);
+        executeTransaction(() -> quizDao.deleteById(entityId));
     }
 
     @Override
@@ -83,12 +97,8 @@ public class QuizService implements facade.QuizDao {
     }
 
     @Override
-    public void addQuestionToQuiz(Long quizId, Question question) {
-
-    }
+    public void addQuestionToQuiz(Long quizId, Question question) {}
 
     @Override
-    public void removeQuestionFromQuiz(Long quizId, Long questionId) {
-
-    }
+    public void removeQuestionFromQuiz(Long quizId, Long questionId) {}
 }

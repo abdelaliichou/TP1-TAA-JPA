@@ -1,6 +1,5 @@
 package dao;
 
-import jakarta.persistence.NoResultException;
 import model.Participation;
 import model.Player;
 import model.Quiz;
@@ -63,6 +62,10 @@ public class PlayerDao extends AbstractJpaDao<Long, Player> implements facade.Pl
                 "email",
                 email
         ).getSingleResult() > 0;
+    }
+
+    public boolean existsByEmail(String email){
+        return false;
     }
 
 }

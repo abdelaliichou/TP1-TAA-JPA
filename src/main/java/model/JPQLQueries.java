@@ -5,6 +5,8 @@ public class JPQLQueries {
         STUDENT, TEACHER
     }
 
+    final public static String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
     public static String playerFindByEmail = "SELECT p FROM Player p WHERE p.email = :email";
     public static String playerFindQuizByPlayer = "SELECT q FROM Quiz q WHERE q.author.id = :playerId";
     public static String playerFindParticipationsByPlayer = "SELECT p FROM Participation p WHERE p.player.id = :playerId";

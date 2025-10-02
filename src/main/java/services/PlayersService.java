@@ -3,6 +3,8 @@ package services;
 import dao.PlayerDao;
 import facade.IGenericDao;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import model.JPQLQueries;
 import model.Participation;
 import model.Player;
 import model.Quiz;
@@ -12,12 +14,23 @@ import java.util.List;
 public class PlayersService implements facade.PlayerDao {
 
     // TODO create & add exceptions to every unwanted return
-    // TODO create & add transactions logic with the entity manager
 
     private final PlayerDao playerDao;
 
     public PlayersService(PlayerDao playerDao) {
         this.playerDao = playerDao;
+    }
+
+    private void executeTransaction(Runnable action) {
+        EntityTransaction tx = playerDao.entityManager.getTransaction();
+        try {
+            tx.begin();
+            action.run();
+            tx.commit();
+        } catch (RuntimeException e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        }
     }
     
     public Player findOne(Long id) {
@@ -32,20 +45,62 @@ public class PlayersService implements facade.PlayerDao {
         return playerDao.findAll();
     }
 
-    public void save(Player entity) {
-        if (entity == null) {
-            return;
+    public void save(Player player) {
+        if (player == null) return;
+
+        // Integrity 1: Email must be unique
+        if (playerDao.existsByEmail(player.getEmail())) {
+            throw new IllegalStateException("Email already exists: " + player.getEmail());
         }
 
-        playerDao.save(entity);
+        // Integrity 2: Email must be valid format
+        if (!player.getEmail().matches(JPQLQueries.EMAIL_REGEX)) {
+            throw new IllegalArgumentException("Invalid email format: " + player.getEmail());
+        }
+
+        // Integrity 3: Role must be AUTHOR or PLAYER
+        if (!JPQLQueries.Roles.TEACHER.name().equals(player.getRole())
+                && !JPQLQueries.Roles.STUDENT.name().equals(player.getRole()))
+        {
+            throw new IllegalArgumentException("Invalid role: " + player.getRole());
+        }
+
+        // Integrity 4: Nickname must not be empty
+        if (player.getName() == null || player.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Nickname cannot be empty.");
+        }
+
+        executeTransaction(() -> playerDao.save(player));
     }
 
-    public Player update(Player entity) {
-        if (entity == null) {
-            return null;
+    public Player update(Player player) {
+        if (player == null) return null;
+
+        // Integrity 1: Email must be unique
+        if (playerDao.existsByEmail(player.getEmail())) {
+            throw new IllegalStateException("Email already exists: " + player.getEmail());
         }
 
-        return playerDao.update(entity);
+        // Integrity 2: Email must be valid format
+        if (!player.getEmail().matches(JPQLQueries.EMAIL_REGEX)) {
+            throw new IllegalArgumentException("Invalid email format: " + player.getEmail());
+        }
+
+        // Integrity 3: Role must be AUTHOR or PLAYER
+        if (!JPQLQueries.Roles.TEACHER.name().equals(player.getRole())
+                && !JPQLQueries.Roles.STUDENT.name().equals(player.getRole()))
+        {
+            throw new IllegalArgumentException("Invalid role: " + player.getRole());
+        }
+
+        // Integrity 4: Nickname must not be empty
+        if (player.getName() == null || player.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Nickname cannot be empty.");
+        }
+
+        final Player[] result = new Player[1];
+        executeTransaction(() -> result[0] = playerDao.update(player));
+        return result[0];
     }
 
     public void delete(Player entity) {
@@ -53,15 +108,21 @@ public class PlayersService implements facade.PlayerDao {
             return;
         }
 
-        playerDao.delete(entity);
+        executeTransaction(() -> playerDao.delete(entity));
     }
 
     public void deleteById(Long entityId) {
-        if (entityId == null) {
-            return;
+
+        if (entityId == null) return;
+
+        Player player = playerDao.findOne(entityId);
+
+        // Integrity 5: Prevent deleting if still author of quizzes
+        if (!playerDao.findQuizByPlayer(entityId).isEmpty()) {
+            throw new IllegalStateException("Cannot delete player: still author of quizzes.");
         }
 
-        playerDao.deleteById(entityId);
+        executeTransaction(() -> playerDao.delete(player));
     }
 
     @Override
@@ -100,4 +161,5 @@ public class PlayersService implements facade.PlayerDao {
 
         return playerDao.authenticate(email);
     }
+
 }

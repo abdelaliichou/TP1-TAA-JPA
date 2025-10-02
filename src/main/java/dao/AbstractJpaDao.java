@@ -11,7 +11,7 @@ import jpa.EntityManagerHelper;
 public class AbstractJpaDao<K, T extends Serializable> implements IGenericDao<K, T> {
 
     protected Class<T> clazz;
-    protected EntityManager entityManager;
+    public EntityManager entityManager;
 
     public AbstractJpaDao(Class<T> clazzToSet) {
         this.entityManager = EntityManagerHelper.getEntityManager();
