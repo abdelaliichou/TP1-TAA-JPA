@@ -228,7 +228,7 @@ classDiagram
 ```mermaid
 sequenceDiagram
 
-    participant User ( TEACHER, STUDENT )
+    participant User
     participant JSP
     participant Servlet
     participant Service
