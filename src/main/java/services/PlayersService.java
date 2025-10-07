@@ -22,15 +22,15 @@ public class PlayersService implements facade.PlayerDao {
     }
 
     private void executeTransaction(Runnable action) {
-        EntityTransaction tx = playerDao.entityManager.getTransaction();
-        try {
-            tx.begin();
+    //    EntityTransaction tx = playerDao.entityManager.getTransaction();
+    //    try {
+    //        tx.begin();
             action.run();
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx.isActive()) tx.rollback();
-            throw e;
-        }
+    //        tx.commit();
+    //    } catch (RuntimeException e) {
+    //        if (tx.isActive()) tx.rollback();
+    //        throw e;
+    //    }
     }
     
     public Player findOne(Long id) {

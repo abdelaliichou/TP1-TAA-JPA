@@ -71,14 +71,10 @@ public class QuestionsService implements facade.QuestionDao {
     }
 
     @Override
-    public void addResponseToQuestion(Long questionId, Response response) {
-
-    }
+    public void addResponseToQuestion(Long questionId, Response response) {}
 
     @Override
-    public void removeResponseFromQuestion(Long questionId, Long responseId) {
-
-    }
+    public void removeResponseFromQuestion(Long questionId, Long responseId) {}
 
     @Override
     public boolean checkAnswer(Long questionId, Long responseId) {

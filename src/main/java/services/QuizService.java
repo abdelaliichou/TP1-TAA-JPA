@@ -19,15 +19,15 @@ public class QuizService implements facade.QuizDao {
     }
 
     private void executeTransaction(Runnable action) {
-        EntityTransaction tx = quizDao.entityManager.getTransaction();
-        try {
-            tx.begin();
-            action.run();
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx.isActive()) tx.rollback();
-            throw e;
-        }
+        //    EntityTransaction tx = playerDao.entityManager.getTransaction();
+        //    try {
+        //        tx.begin();
+        action.run();
+        //        tx.commit();
+        //    } catch (RuntimeException e) {
+        //        if (tx.isActive()) tx.rollback();
+        //        throw e;
+        //    }
     }
 
     public Quiz findOne(Long id) {
