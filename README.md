@@ -347,10 +347,11 @@ sudo docker run --name myadmin -d --link some-mysql:db -p 8082:80 phpmyadmin
 sudo docker start some-mysql myadmin
 ./run-hsqldb-server.sh     
 ./show-hsqldb.sh   
+mvn compile jetty:run
 ```
 
-1. Accéder à `/PlayerServlet` pour gérer les joueurs
-2. Accéder à `/QuizServlet` pour gérer les quizzes
+1. Accéder à `http://localhost:8080/PlayerServlet` pour gérer les joueurs
+2. Accéder à `http://localhost:8088/QuizServlet` pour gérer les quizzes
 3. Utiliser les JSP pour ajouter, modifier, supprimer des entités
 4. Accéder à `http://localhost:8082` avec user = `root` & pass = `my-secret-pw`
 5. Crée nouvelle database qui s'appelle selon le fichier persistance.xml `mydatabase`
