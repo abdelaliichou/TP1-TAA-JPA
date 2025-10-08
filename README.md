@@ -336,14 +336,23 @@ Exemple : Screenshots des pages jsp quiz/player ... :
 
 ## 12. Exemple d’utilisation
 
-```
-./run-hsqldb-server.sh      # ou run-hsqldb-server.bat sous Windows
-./show-hsqldb.sh            # pour ouvrir le manager HSQLDB
-mvn jetty:run # Lancer l’application avec Maven et Jetty
+```        
+sudo docker run --name some-mysql  -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
+sudo docker run --name myadmin -d --link some-mysql:db -p 8082:80 phpmyadmin
+sudo docker start some-mysql myadmin
+./run-hsqldb-server.sh     
+./show-hsqldb.sh   
 ```
 
 1. Accéder à `/PlayerServlet` pour gérer les joueurs
 2. Accéder à `/QuizServlet` pour gérer les quizzes
 3. Utiliser les JSP pour ajouter, modifier, supprimer des entités
+4. Accéder à `http://localhost:8082` avec user = `root` & pass = `my-secret-pw`
+5. Crée nouvelle database qui s'appelle selon le fichier persistance.xml `mydatabase`
+
+Exemple : Screenshots aprés lancement de tout ... :
+
+![Logo ISTIC](src/main/webapp/screen5.png)
+![Logo ISTIC](src/main/webapp/screen6.png)
 
 ---

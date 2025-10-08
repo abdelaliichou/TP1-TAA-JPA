@@ -8,7 +8,7 @@ public class EntityManagerHelper {
 
     // TODO run mysql docker command from google doc file before changing here
 
-    static final String PERSISTENCE_UNIT_NAME = "dev";
+    static final String PERSISTENCE_UNIT_NAME = "mysql";
     private static final EntityManagerFactory emf; 
     private static final ThreadLocal<EntityManager> threadLocal;
 
