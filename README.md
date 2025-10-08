@@ -328,9 +328,14 @@ Exemple : Screenshots des pages jsp quiz/player ... :
 
 * DTO et MapStruct pour simplifier les conversions
 * API REST et annotations OpenAPI (TP2)
+
+<div style="background-color: rgb(150, 50, 50);">
+
 > **Note importante :**  
 > MapStruct et Swagger (OpenAPI) ne sont pas utilisés dans ce TP1.  
-> Ces fonctionnalités seront introduites dans les TP2 (OpenAPI) et TP3 (Spring).  
+> Ces fonctionnalités seront introduites dans les TP2 (OpenAPI) et TP3 (Spring).
+
+</div>
 
 ---
 
