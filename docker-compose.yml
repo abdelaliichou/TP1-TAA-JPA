@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:latest
+    container_name: some-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: mydatabase
+    ports:
+      - "3306:3306"
+    networks:
+      - springnet
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: myadmin
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: my-secret-pw
+    ports:
+      - "8082:80"
+    networks:
+      - springnet
+
+  spring-app:
+    build: .
+    container_name: springtp-app-jpa
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "9000:8080"
+    networks:
+      - springnet
+
+networks:
+  springnet:
+    driver: bridge

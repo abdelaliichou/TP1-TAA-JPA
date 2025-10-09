@@ -389,19 +389,14 @@ public class Player implements Serializable {
 
 ---
 
-## 12. Exemple d’utilisation
+## 12. Lancer l'application avec docker
 
-```        
-sudo docker run --name some-mysql  -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
-sudo docker run --name myadmin -d --link some-mysql:db -p 8082:80 phpmyadmin
-sudo docker start some-mysql myadmin
-./run-hsqldb-server.sh     
-./show-hsqldb.sh   
-mvn compile jetty:run
+```
+docker compose up --build
 ```
 
-1. Accéder à `http://localhost:8080/PlayerServlet` pour gérer les joueurs
-2. Accéder à `http://localhost:8088/QuizServlet` pour gérer les quizzes
+1. Accéder à `http://localhost:9000/PlayerServlet` pour gérer les joueurs
+2. Accéder à `http://localhost:9000/QuizServlet` pour gérer les quizzes
 3. Utiliser les JSP pour ajouter, modifier, supprimer des entités
 4. Accéder à `http://localhost:8082` avec user = `root` & pass = `my-secret-pw`
 5. Crée nouvelle database qui s'appelle selon le fichier persistance.xml `mydatabase`
