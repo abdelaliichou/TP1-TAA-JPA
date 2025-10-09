@@ -289,6 +289,56 @@ Exemple : Screenshots des pages jsp quiz/player ... :
 
 ---
 
+## 8. Lombok pour la Rédondance de Code
+
+**Exemple pour l'Entité `Player` :**
+
+```java
+package com.example.springtp.domain;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+// ... autres imports ...
+
+@Entity
+@Getter // Génère tous les getters
+@Setter // Génère tous les setters
+@NoArgsConstructor // Requis par JPA pour la création de proxy
+@ToString(exclude = {"quizzes", "participations"}) // Exclut les collections de la méthode toString()
+@EqualsAndHashCode(exclude = {"quizzes", "participations"}) // Exclut les collections de equals/hashCode
+@AllArgsConstructor // Constructeur avec tous les arguments
+public class Player implements Serializable {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(length = 100)
+    private String name;
+    private String role;
+    private String email;
+
+    // Relations exclues de ToString et EqualsAndHashCode :
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Quiz> quizzes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    private List<Participation> participations = new ArrayList<>();
+
+    // Constructeur personnalisé conservé
+    public Player(String name, String role, String email) { /* ... */ }
+}
+```
+
+* **`@Getter`, `@Setter`**: Remplacent toutes les méthodes d'accès manuelles.
+* **`@NoArgsConstructor`**: Indispensable pour la création d'instances par JPA.
+* **`@ToString(exclude = {..})`** et **`@EqualsAndHashCode(exclude = {..})`**: Ces exclusions sont **obligatoires** sur les relations bidirectionnelles pour garantir la stabilité de l'application (prévention de l'exception `StackOverflowError` et des problèmes de *Lazy Loading*).
+
+-----
+
+---
+
 ## 9. Logique métier détaillée
 
 ### 9.1. Players
